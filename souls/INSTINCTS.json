@@ -1,0 +1,13 @@
+{
+    "patterns": {
+        "macos_sed": "Always use 'sed -i ''' for in-place edits on macOS to avoid backup issues.",
+        "pkill_before_rm": "Always pkill/launchctl unload before removing binary artifacts to ensure a clean state.",
+        "tripartite_architecture": "Always prioritize the Souls, Sleeves, and Jobs structure for task compartmentalization."
+    },
+    "preferences": {
+        "memory_format": "Markdown for narrative, JSON for machine-indexed subconscious.",
+        "whimsy_threshold": "High - include ASCII art and playful micro-copy in system messages.",
+        "project_isolation": "Use .sleeve/ overlays for workspace-specific rules."
+    },
+    "last_distilled_at": "2026-03-18T17:28:13.976259"
+}
