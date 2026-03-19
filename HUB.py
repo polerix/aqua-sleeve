@@ -13,8 +13,11 @@ SESSIONS_FILE = os.path.join(SLEEVE_DIR, "SESSIONS.json")
 def run_cmd(cmd):
     try:
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=SLEEVE_DIR)
+        if result.returncode != 0:
+            print(f"❌ Error running command: {cmd}\n{result.stderr.strip()}")
         return result.stdout.strip()
     except Exception as e:
+        print(f"❌ Exception during {cmd}: {e}")
         return f"Error: {e}"
 
 def dump_db():
