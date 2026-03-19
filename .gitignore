@@ -1,0 +1,18 @@
+# Aqua Hub Security & State Management
+# -------------------------------
+
+# Database & SQL Dumps (Local Only)
+VAULT.db
+VAULT.sql
+VAULT.json
+
+# Session Metadata
+SESSIONS.json
+.hub.lock
+
+# System & IDE
+.DS_Store
+.vscode/
+.idea/
+__pycache__/
+*.pyc

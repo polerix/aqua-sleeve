@@ -10,20 +10,27 @@ VAULT_DB = os.path.join(SLEEVE_DIR, "VAULT.db")
 VAULT_SQL = os.path.join(SLEEVE_DIR, "VAULT.sql")
 SESSIONS_FILE = os.path.join(SLEEVE_DIR, "SESSIONS.json")
 
-def run_cmd(cmd):
+def run_cmd(args):
+    """Secure command execution using subprocess lists (no shell=True)."""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=SLEEVE_DIR)
+        # Use a list of arguments to prevent command injection
+        result = subprocess.run(args, capture_output=True, text=True, cwd=SLEEVE_DIR)
         if result.returncode != 0:
-            print(f"❌ Error running command: {cmd}\n{result.stderr.strip()}")
+            print(f"❌ Error running command: {' '.join(args)}\n{result.stderr.strip()}")
         return result.stdout.strip()
     except Exception as e:
-        print(f"❌ Exception during {cmd}: {e}")
+        print(f"❌ Exception during {' '.join(args)}: {e}")
         return f"Error: {e}"
 
 def dump_db():
     print("📤 Shadowing Deep Sea Vault to SQL...")
     if os.path.exists(VAULT_DB):
-        run_cmd(f"sqlite3 {VAULT_DB} .dump > {VAULT_SQL}")
+        # Securely handle redirection in Python instead of the shell
+        try:
+            with open(VAULT_SQL, "w") as f:
+                subprocess.run(["sqlite3", VAULT_DB, ".dump"], stdout=f, check=True)
+        except Exception as e:
+            print(f"❌ Database dump failed: {e}")
 
 def restore_db():
     if os.path.exists(VAULT_SQL):
@@ -34,7 +41,11 @@ def restore_db():
         if sql_mtime > db_mtime:
             print("📥 Hydrating Deep Sea Vault from SQL...")
             if os.path.exists(VAULT_DB): os.remove(VAULT_DB)
-            run_cmd(f"sqlite3 {VAULT_DB} < {VAULT_SQL}")
+            try:
+                with open(VAULT_SQL, "r") as f:
+                    subprocess.run(["sqlite3", VAULT_DB], stdin=f, check=True)
+            except Exception as e:
+                print(f"❌ Database hydration failed: {e}")
 
 def update_heartbeat():
     hostname = socket.gethostname()
@@ -62,15 +73,22 @@ def update_heartbeat():
 
 def sync_pull():
     print("🌊 Pulling latest personality matrix from the current...")
-    run_cmd("git pull --rebase origin master")
+    run_cmd(["git", "pull", "--rebase", "origin", "master"])
     restore_db()
 
 def sync_push(msg="Memory Flush"):
     dump_db()
     print("🚀 Pushing insights to the Aqua Hub...")
-    run_cmd("git add .")
-    run_cmd(f'git commit -m "🌊 {msg} ({socket.gethostname()})" ')
-    run_cmd("git push origin master")
+    # EXPLICIT FILE LIST: Never use 'git add .' to avoid leaking secrets/vaults
+    safe_files = ["CHRONICLE.md", "GEMINI.md", "IDENTITY.md", "KNOWLEDGE.md", "REVERSE_REFLECT.md", "HUB.py", "PINOCCHIO_TASKS.py", "dream.py", "SESSIONS.json"]
+    # Check which exist before adding
+    to_add = [f for f in safe_files if os.path.exists(os.path.join(SLEEVE_DIR, f))]
+    if to_add:
+        run_cmd(["git", "add"] + to_add)
+    
+    commit_msg = f"🌊 {msg} ({socket.gethostname()})"
+    run_cmd(["git", "commit", "-m", commit_msg])
+    run_cmd(["git", "push", "origin", "master"])
 
 if __name__ == "__main__":
     import sys

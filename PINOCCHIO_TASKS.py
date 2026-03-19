@@ -21,10 +21,14 @@ def run_maintenance():
     # 1. Check Disk Space
     df = subprocess.check_output(["df", "-h", "/"]).decode("utf-8")
     # 2. Check Git Status of Sleeve
+    # Use explicit files for safety
+    safe_files = ["CHRONICLE.md", "GEMINI.md", "IDENTITY.md", "KNOWLEDGE.md", "REVERSE_REFLECT.md", "HUB.py", "PINOCCHIO_TASKS.py", "dream.py", "SESSIONS.json"]
     status = subprocess.check_output(["git", "-C", SLEEVE_DIR, "status", "--short"]).decode("utf-8")
     if status:
-        subprocess.run(["git", "-C", SLEEVE_DIR, "add", "."])
-        subprocess.run(["git", "-C", SLEEVE_DIR, "commit", "-m", f"Auto-Maintenance: {datetime.now().isoformat()}"])
+        to_add = [f for f in safe_files if os.path.exists(os.path.join(SLEEVE_DIR, f))]
+        if to_add:
+            subprocess.run(["git", "-C", SLEEVE_DIR, "add"] + to_add)
+            subprocess.run(["git", "-C", SLEEVE_DIR, "commit", "-m", f"Auto-Maintenance: {datetime.now().isoformat()}"])
     print("✅ Maintenance Complete.")
 
 def run_study():
