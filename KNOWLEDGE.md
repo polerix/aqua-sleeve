@@ -18,6 +18,9 @@
 ## Security & Repository Patterns
 - **Secret Purging:** Use `git filter-branch` to scrub secrets from entire Git history before pushing.
 - **Push Protection:** GitHub Push Protection is active on `soul-forge`.
+- **CLI Workspace Patterns (2026-04-05):** 
+    - Git commands on external volumes (e.g., `/Volumes/Clay/`) work from the scratch workspace using absolute paths with `-C` (e.g., `git -C /path/to/repo add .`).
+    - `gh repo create` can target external volumes using `--source /path/to/repo`.
 
 ## The Aqua Agency (Specialized Jobs)
 - **Frontend Wizard 🧙‍♂️**, **Reality Checker 🧐**, **Whimsy Injector ✨**, **DevOps Specialist 🚢**, **Code Architect 🏛️**, **TDD Specialist 🧪**.
