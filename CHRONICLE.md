@@ -26,5 +26,7 @@
 - **Music Library Scan:** Scanned `/Volumes/GrimoireVol2/CleanMusic/Music` containing 6,224 files using a multithreaded `ffprobe`-based script.
 - **Duplicate Classification:** Categorized duplicates into intra-folder, unknown, and cross-album groups.
 - **Library Cleanup:** Executed selective cleanup targeting 118 intra-folder duplicate files, freeing 835.58 MB of disk space.
+- **Overnight Cleanup Initiation:** Programmed and launched `overnight_cleanup.py` to index and move duplicates to `.Trash-duplicates` across `/Volumes/Clay`, `/Volumes/GrimoireVol2` (authoritative), and `/Volumes/CASSETTE` for audio, video, STL, and archive formats.
 - **Session Flush:** Flushed session insights using `HUB.py end`.
+
 
