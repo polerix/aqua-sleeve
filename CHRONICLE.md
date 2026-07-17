@@ -29,5 +29,11 @@
 - **Overnight Cleanup Run:** Successfully scanned 50,167 files across `/Volumes/Clay`, `/Volumes/GrimoireVol2` (authoritative), and `/Volumes/CASSETTE`. Identified 11,193 duplicate groups and moved 12,262 redundant files to `.Trash-duplicates` (recreating relative directory structures), freeing 64.14 GB of disk space.
 - **Session Flush:** Flushed session insights using `HUB.py end`.
 
+## 2026-07-17: Trash Emptying & Space Reclamation
+- **State Hydration:** Hydrated state via `HUB.py start`.
+- **Trash Directory Removal:** Permanently deleted the `.Trash-duplicates` directories on `/Volumes/Clay` and `/Volumes/CASSETTE`, fully reclaiming the 64.14 GB of disk space.
+- **Session Flush:** Flushed session insights using `HUB.py end`.
+
+
 
 
