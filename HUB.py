@@ -80,7 +80,7 @@ def sync_push(msg="Memory Flush"):
     dump_db()
     print("🚀 Pushing insights to the Aqua Hub...")
     # EXPLICIT FILE LIST: Never use 'git add .' to avoid leaking secrets/vaults
-    safe_files = ["CHRONICLE.md", "GEMINI.md", "IDENTITY.md", "KNOWLEDGE.md", "REVERSE_REFLECT.md", "HUB.py", "PINOCCHIO_TASKS.py", "dream.py", "SESSIONS.json"]
+    safe_files = [".gitignore", "CHRONICLE.md", "GEMINI.md", "IDENTITY.md", "KNOWLEDGE.md", "REVERSE_REFLECT.md", "HUB.py", "PINOCCHIO_TASKS.py", "dream.py", "SESSIONS.json"]
     # Check which exist before adding
     to_add = [f for f in safe_files if os.path.exists(os.path.join(SLEEVE_DIR, f))]
     if to_add:
